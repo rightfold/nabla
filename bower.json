@@ -12,6 +12,7 @@
   ],
   "dependencies": {
     "purescript-prelude": "^1.0.0",
-    "purescript-eff": "^1.0.0"
+    "purescript-eff": "^1.0.0",
+    "purescript-generics": "^1.0.0"
   }
 }
