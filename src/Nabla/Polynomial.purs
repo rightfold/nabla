@@ -5,14 +5,18 @@ module Nabla.Polynomial
 import Nabla.Term (Term(..))
 import Prelude
 
--- | Returns the addends of the polynomial. The original polynomial can be
--- | reconstructed easily; no information is lost.
-unpolynomial :: Term -> Array {factors :: Array Term, exponent :: Term}
-unpolynomial = addends >>> map \a -> {factors: factors a, exponent: exponent a}
+-- | Returns the factors of the addends of the polynomial. The original
+-- | polynomial can be reconstructed easily; no information is lost.
+unpolynomial :: Term -> Array (Array {base :: Term, exponent :: Term})
+unpolynomial = addends >>> map (factors >>> map \f -> {base: base f, exponent: exponent f})
 
 exponent :: Term -> Term
 exponent (Pow _ e) = e
 exponent _ = Num 1.0
+
+base :: Term -> Term
+base (Pow b _) = b
+base n = n
 
 factors :: Term -> Array Term
 factors (Mul a b) = factors a <> factors b
