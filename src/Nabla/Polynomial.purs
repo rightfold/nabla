@@ -11,17 +11,17 @@ unpolynomial :: Term -> Array (Array {base :: Term, exponent :: Term})
 unpolynomial = addends >>> map (factors >>> map \f -> {base: base f, exponent: exponent f})
 
 exponent :: Term -> Term
-exponent (Pow _ e) = e
+exponent (App Pow [_, e]) = e
 exponent _ = Num 1.0
 
 base :: Term -> Term
-base (Pow b _) = b
+base (App Pow [b, _]) = b
 base n = n
 
 factors :: Term -> Array Term
-factors (Mul a b) = factors a <> factors b
+factors (App Mul [a, b]) = factors a <> factors b
 factors n = [n]
 
 addends :: Term -> Array Term
-addends (Add a b) = addends a <> addends b
+addends (App Add [a, b]) = addends a <> addends b
 addends n = [n]

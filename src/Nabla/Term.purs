@@ -9,17 +9,18 @@ import Prelude
 -- | `0 + 1`, `1 + 0`, and `1` are considered distinct.
 data Term
   = Var String
+  | App Term (Array Term)
 
   | Num Number
 
   | Pi
   | E
 
-  | Add Term Term
-  | Mul Term Term
+  | Add
+  | Mul
 
-  | Pow Term Term
-  | Log Term Term
+  | Pow
+  | Log
 
 derive instance genericTerm :: Generic Term
 
