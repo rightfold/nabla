@@ -16,6 +16,8 @@
     "purescript-generics": "^1.0.0",
     "purescript-maps": "^1.0.0",
     "purescript-maybe": "^1.0.0",
-    "purescript-console": "^1.0.0"
+    "purescript-console": "^1.0.0",
+    "purescript-tuples": "^1.0.0",
+    "purescript-arrays": "^1.0.0"
   }
 }
