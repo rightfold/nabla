@@ -26,7 +26,7 @@ class Server {
 
 addEventListener('load', () => {
     const server = new Server();
-    server.compute('x', result => {
+    server.compute('(log x y)', result => {
         console.log(result);
     });
 });
