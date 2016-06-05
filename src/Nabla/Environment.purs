@@ -21,7 +21,7 @@ resolve (App f xs) γ = App (resolve f γ) (map (resolve `flip` γ) xs)
 resolve n@(Num _) _ = n
 
 resolve Pi _ = Pi
-resolve E _  = E
+resolve E  _ = E
 
 resolve Add _ = Add
 resolve Mul _ = Mul
