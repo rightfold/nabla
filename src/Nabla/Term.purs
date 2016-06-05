@@ -5,7 +5,7 @@ module Nabla.Term
 import Data.Generic (gCompare, class Generic, gEq)
 import Prelude
 
--- | Denotes a mathematical object. Equality and ordering are structual;
+-- | Denotes a mathematical object. Equality and ordering are structural;
 -- | `0 + 1`, `1 + 0`, and `1` are considered distinct.
 data Term
   = Var String
