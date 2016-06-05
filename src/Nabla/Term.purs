@@ -2,7 +2,7 @@ module Nabla.Term
 ( Term(..)
 ) where
 
-import Data.Generic (gCompare, class Generic, gEq, gShow)
+import Data.Generic (gCompare, class Generic, gEq)
 import Prelude
 
 -- | Denotes a mathematical object. Equality and ordering are structural;
@@ -27,5 +27,3 @@ derive instance genericTerm :: Generic Term
 instance eqTerm :: Eq Term where eq = gEq
 
 instance ordTerm :: Ord Term where compare = gCompare
-
-instance showTerm :: Show Term where show = gShow

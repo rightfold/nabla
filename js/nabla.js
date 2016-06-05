@@ -47,7 +47,8 @@ function formulaCell(server, parent) {
     submitButton.addEventListener('click', () => {
         resultView.textContent = '(loading)';
         server.compute(formulaField.value, result => {
-            resultView.textContent = result;
+            resultView.textContent = '\\(' + result + '\\)';
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub, resultView]);
         });
     });
 }

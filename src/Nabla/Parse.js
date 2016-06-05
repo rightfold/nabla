@@ -9,7 +9,7 @@ function lex(text) {
             text = text.slice(match[0].length);
             break;
 
-        case !!(match = /^[a-zA-Z_][a-zA-Z_0-9]*/.exec(text)):
+        case !!(match = /^[a-zA-Z+*^_]+/.exec(text)):
             lexemes.push({type: 'identifier', name: match[0]});
             text = text.slice(match[0].length);
             break;
