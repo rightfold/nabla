@@ -1,7 +1,23 @@
 term
-  = call_term
+  = add_term
 
-call_term
+add_term
+  = head:mul_term tail:(op:[+-] x:mul_term { return {op: op, x: x}; })*
+      {
+        return tail.reduce(function(a, b) {
+          return ctors.app(ctors.var({'+': 'Add', '-': 'Sub'}[b.op]))([a, b.x]);
+        }, head);
+      }
+
+mul_term
+  = head:app_term tail:(op:[*/]? x:app_term { return {op: op, x: x}; })*
+      {
+        return tail.reduce(function(a, b) {
+          return ctors.app(ctors.var({null: 'Mul', '*': 'Mul', '/': 'Div'}[b.op]))([a, b.x]);
+        }, head);
+      }
+
+app_term
   = function_:primary_term
     argumentLists:(LEFT_BRACKET init:(x:term ',' { return x; })* last:term? RIGHT_BRACKET
                      { return init.concat(last === null ? [] : [last]) })*
