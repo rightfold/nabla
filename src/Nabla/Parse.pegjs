@@ -30,9 +30,12 @@ app_term
 primary_term
   = name:LOWERCASE_IDENTIFIER { return ctors.var(name); }
   / name:UPPERCASE_IDENTIFIER { return ctors.var(name); }
+  / LEFT_PAREN term:term RIGHT_PAREN { return term; }
 
 LEFT_BRACKET = _ '[' _
 RIGHT_BRACKET = _ ']' _
+LEFT_PAREN = _ '(' _
+RIGHT_PAREN = _ ')' _
 LOWERCASE_IDENTIFIER = _ name:$([a-z][A-Za-z]*) _ { return name; }
 UPPERCASE_IDENTIFIER = _ name:$([A-Z][A-Za-z]*) _ { return name; }
 
