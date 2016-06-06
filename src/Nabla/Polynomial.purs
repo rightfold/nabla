@@ -12,7 +12,7 @@ unpolynomial = addends >>> map (factors >>> map \f -> {base: base f, exponent: e
 
 exponent :: Term -> Term
 exponent (App Pow [_, e]) = e
-exponent _ = Num 1.0
+exponent _ = Num 1
 
 base :: Term -> Term
 base (App Pow [b, _]) = b

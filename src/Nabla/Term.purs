@@ -11,7 +11,7 @@ data Term
   = Var String
   | App Term (Array Term)
 
-  | Num Number
+  | Num Int
 
   | Pi
   | E
