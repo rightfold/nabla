@@ -3,7 +3,6 @@ module Main where
 import Control.Monad.Eff (Eff)
 import Data.Map as Map
 import Data.Maybe (maybe)
-import Data.String as String
 import Data.Tuple (Tuple(Tuple))
 import Nabla.Environment (Γ(Γ), resolve)
 import Nabla.LaTeX (toLaTeX)
@@ -15,10 +14,9 @@ import Prelude
 foreign import data WEBWORKER :: !
 
 main :: forall e. Eff (webWorker :: WEBWORKER | e) Unit
-main = serve $ parse >>> maybe "" (    map (resolve `flip` γ)
-                                   >>> map simplify
-                                   >>> map toLaTeX
-                                   >>> String.joinWith "\n"
+main = serve $ parse >>> maybe "" (    (resolve `flip` γ)
+                                   >>> simplify
+                                   >>> toLaTeX
                                   )
   where γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
                                  , Tuple "E" E

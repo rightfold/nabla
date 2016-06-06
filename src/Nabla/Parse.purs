@@ -5,7 +5,7 @@ module Nabla.Parse
 import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Term (Term(..))
 
-parse :: String -> Maybe (Array Term)
+parse :: String -> Maybe Term
 parse = parse' {just: Just, nothing: Nothing, var: Var, app: App}
 
 foreign import parse'
@@ -15,4 +15,4 @@ foreign import parse'
      , app     :: Term -> Array Term -> Term
      }
   -> String
-  -> Maybe (Array Term)
+  -> Maybe Term
