@@ -1,0 +1,5 @@
+abstract Meter;
+abstract Kilogram;
+abstract Second;
+
+def Newton = Kilogram(Meter/Second^2);
