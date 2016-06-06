@@ -24,37 +24,35 @@ class Server {
     }
 }
 
-function formulaCell(server, parent) {
-    const form = document.createElement('form');
-    parent.appendChild(form);
-
-    const formulaField = document.createElement('input');
-    formulaField.type = 'text';
-    form.appendChild(formulaField);
-
-    const submitButton = document.createElement('button');
-    submitButton.type = 'submit';
-    submitButton.textContent = '=';
-    form.appendChild(submitButton);
-
-    const resultView = document.createElement('div');
-    form.appendChild(resultView);
-
-    form.addEventListener('submit', ev => {
+const FormulaCell = React.createClass({
+    getInitialState: function() {
+        return {formula: ''};
+    },
+    render: function() {
+        return React.createElement('form', {onSubmit: ev => this.onSubmit(ev)},
+            React.createElement('input', {
+                type: 'text',
+                value: this.state.formula,
+                onChange: ev => this.setState({formula: ev.target.value}),
+            }),
+            React.createElement('button', {type: 'submit'}, '='),
+            React.createElement('div', {ref: 'result'})
+        );
+    },
+    onSubmit: function(ev) {
         ev.preventDefault();
-    });
-
-    submitButton.addEventListener('click', () => {
-        resultView.textContent = '(loading)';
-        server.compute(formulaField.value, result => {
-            resultView.textContent = '\\(' + result + '\\)';
-            MathJax.Hub.Queue(['Typeset', MathJax.Hub, resultView]);
+        this.refs.result.textContent = '(loading)';
+        this.props.server.compute(this.state.formula, result => {
+            this.refs.result.textContent = '\\(' + result + '\\)';
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.refs.result]);
         });
-    });
-}
+    },
+});
 
 addEventListener('load', () => {
     const server = new Server();
-    const notebook = document.getElementById('notebook');
-    formulaCell(server, notebook);
+    ReactDOM.render(
+        React.createElement(FormulaCell, {server}),
+        document.getElementById('notebook')
+    );
 });
