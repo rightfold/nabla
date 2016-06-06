@@ -23,13 +23,14 @@ Arithmetic
 ~~~~~~~~~~
 
 - `a + b` is equivalent to `Add[a, b]`.
-- `a - b` is equivalent to `Subtract[a, b]`.
-- `a * b` is equivalent to `Multiply[a, b]`.
-- `a b` is equivalent to `Multiply[a, b]`.
-- `a / b` is equivalent to `Divide[a, b]`.
+- `a - b` is equivalent to `Sub[a, b]`.
+- `a * b` is equivalent to `Mul[a, b]`.
+- `a b` is equivalent to `Mul[a, b]`.
+- `a / b` is equivalent to `Div[a, b]`.
+- `a ^ b` is equivalent to `Pow[a, b]`.
 
 Parentheses
 ~~~~~~~~~~~
 
 Parentheses can be used to work around the precedence of operators. For
-example, `a * (b + c)` is equivalent to `Multiply[Add[b, c]]`.
+example, `a * (b + c)` is equivalent to `Mul[Add[b, c]]`.

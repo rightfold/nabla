@@ -20,9 +20,9 @@ main = serve $ parse >>> maybe "" (    (resolve `flip` γ)
                                   )
   where γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
                                  , Tuple "E" E
-                                 , Tuple "+" Add
-                                 , Tuple "*" Mul
-                                 , Tuple "^" Pow
+                                 , Tuple "Add" Add
+                                 , Tuple "Mul" Mul
+                                 , Tuple "Pow" Pow
                                  , Tuple "Log" Log
                                  ]
 
