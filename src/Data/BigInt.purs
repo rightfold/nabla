@@ -24,6 +24,9 @@ instance semiringBigInt :: Semiring BigInt where
   zero = zeroImpl
   add = addImpl
 
+instance ringBigInt :: Ring BigInt where
+  sub = subImpl
+
 instance eqBigInt :: Eq BigInt where
   eq = eqImpl
 
@@ -34,6 +37,8 @@ foreign import oneImpl :: BigInt
 foreign import mulImpl :: BigInt -> BigInt -> BigInt
 foreign import zeroImpl :: BigInt
 foreign import addImpl :: BigInt -> BigInt -> BigInt
+
+foreign import subImpl :: BigInt -> BigInt -> BigInt
 
 foreign import fromStringImpl
   :: (forall a. a -> Maybe a)

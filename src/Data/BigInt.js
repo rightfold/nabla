@@ -38,6 +38,12 @@ exports.addImpl = function(a) {
     };
 };
 
+exports.subImpl = function(a) {
+    return function(b) {
+        return a.minus(b);
+    };
+};
+
 exports.eqImpl = function(a) {
     return function(b) {
         return a.equals(b);
