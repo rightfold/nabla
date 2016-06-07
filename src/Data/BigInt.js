@@ -14,6 +14,10 @@ exports.fromStringImpl = function(just) {
     };
 };
 
+exports.toStringImpl = function(x) {
+    return x.toString();
+};
+
 exports.showImpl = function(x) {
     return 'Data.BigInt.unsafeFromString "' + x.toString() + '"';
 };

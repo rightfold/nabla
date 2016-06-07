@@ -2,6 +2,7 @@ module Nabla.LaTeX
 ( toLaTeX
 ) where
 
+import Data.BigInt as BigInt
 import Data.String as String
 import Nabla.Term (Term(..))
 import Prelude
@@ -14,7 +15,7 @@ toLaTeX (App Pow [b, e]) = paren 0x50 b <> "^{" <> toLaTeX e <> "}"
 toLaTeX (App Log [b, x]) = "\\log_{" <> toLaTeX b <> "}" <> paren 0x40 x
 toLaTeX (App f xs) = toLaTeX f <> "(" <> String.joinWith ", " (map toLaTeX xs) <> ")"
 
-toLaTeX (Num n) = show n
+toLaTeX (Num n) = BigInt.toString n
 
 toLaTeX Pi = "\\pi"
 toLaTeX E = "e"
