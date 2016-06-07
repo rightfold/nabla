@@ -33,3 +33,5 @@ resolve Mul _ = Just Mul
 
 resolve Pow _ = Just Pow
 resolve Log _ = Just Log
+
+resolve Derivative _ = Just Derivative

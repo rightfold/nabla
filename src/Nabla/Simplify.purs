@@ -6,6 +6,7 @@ import Data.Array as Array
 import Data.BigInt (BigInt)
 import Data.Foldable (any, foldl)
 import Data.Maybe (Maybe(Just, Nothing))
+import Nabla.Derivative (derivative)
 import Nabla.Term (Term(..))
 import Prelude
 
@@ -22,6 +23,7 @@ simplify' (App f xs) =
   # simplifyCommutativity
   # simplifyUnaryApp
   # simplifyZeroProduct
+  # simplifyDerivative
 simplify' t = t
 
 simplifyAssociativity :: Term -> Term
@@ -65,6 +67,13 @@ simplifyUnaryApp t = t
 simplifyZeroProduct :: Term -> Term
 simplifyZeroProduct (App Mul xs) | any (_ == Num zero) xs = Num zero
 simplifyZeroProduct t = t
+
+simplifyDerivative :: Term -> Term
+simplifyDerivative (App Derivative [f, Var x]) =
+  case derivative f x of
+    Just d  -> d
+    Nothing -> App Derivative [f, Var x]
+simplifyDerivative t = t
 
 associative :: Term -> Boolean
 associative Add = true

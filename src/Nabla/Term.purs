@@ -22,6 +22,8 @@ data Term
   | Pow
   | Log
 
+  | Derivative
+
 derive instance eqTerm :: Eq Term
 
 derive instance ordTerm :: Ord Term

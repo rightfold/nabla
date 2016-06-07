@@ -26,6 +26,8 @@ toLaTeX Mul = "\\mathtt{*}"
 toLaTeX Pow = "\\mathtt{\\hat{}}"
 toLaTeX Log = "\\mathtt{Log}"
 
+toLaTeX Derivative = "\\mathtt{Derivative}"
+
 prec :: Term -> Int
 prec (App Add _) = 0x20
 prec (App Mul _) = 0x30
