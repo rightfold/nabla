@@ -70,7 +70,7 @@ simplifyZeroProduct t = t
 
 simplifyDerivative :: Term -> Term
 simplifyDerivative (App Derivative [f, Var x]) =
-  case derivative f x of
+  case derivative x f of
     Just d  -> d
     Nothing -> App Derivative [f, Var x]
 simplifyDerivative t = t
