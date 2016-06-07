@@ -24,6 +24,7 @@ simplify' (App f xs) =
   # simplifyUnaryApp
   # simplifyZeroProduct
   # simplifyDerivative
+  # simplifyPower
 simplify' t = t
 
 simplifyAssociativity :: Term -> Term
@@ -74,6 +75,13 @@ simplifyDerivative (App Derivative [f, Var x]) =
     Just d  -> d
     Nothing -> App Derivative [f, Var x]
 simplifyDerivative t = t
+
+simplifyPower :: Term -> Term
+simplifyPower (App Pow [b, e])
+  | e == Num zero = Num one
+  | e == Num one = b
+  | otherwise = App Pow [b, e]
+simplifyPower t = t
 
 associative :: Term -> Boolean
 associative Add = true
