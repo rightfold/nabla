@@ -22,6 +22,8 @@ toLaTeX E = "e"
 toLaTeX Add = "\\mathtt{+}"
 toLaTeX Mul = "\\mathtt{*}"
 
+toLaTeX Neg = "\\mathtt{-}"
+
 toLaTeX Pow = "\\mathtt{\\hat{}}"
 toLaTeX Log = "\\mathtt{Log}"
 

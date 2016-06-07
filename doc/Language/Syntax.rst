@@ -28,6 +28,8 @@ Arithmetic
 - `a b` is equivalent to `Mul[a, b]`.
 - `a / b` is equivalent to `Div[a, b]`.
 - `a ^ b` is equivalent to `Pow[a, b]`.
+- `+x` is equivalent to `x`.
+- `-x` is equivalent to `Neg[x]`.
 
 Parentheses
 ~~~~~~~~~~~
