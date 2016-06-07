@@ -22,7 +22,10 @@ simplify' (App f xs) =
 simplify' t = t
 
 simplifyAssociativity :: Term -> Term
-simplifyAssociativity = id
+simplifyAssociativity (App f xs) | associative f = App f (xs >>= flatten)
+  where flatten (App g ys) | g == f = ys
+        flatten t = [t]
+simplifyAssociativity t = t
 
 simplifyIdentity :: Term -> Term
 simplifyIdentity (App f xs) =
@@ -36,6 +39,11 @@ simplifyCommutativity = id
 
 simplifyConstants :: Term -> Term
 simplifyConstants = id
+
+associative :: Term -> Boolean
+associative Add = true
+associative Mul = true
+associative _ = false
 
 identity :: Term -> Maybe Term
 identity Add = Just (Num BigInt.zero)
