@@ -4,6 +4,7 @@ module Nabla.Simplify
 
 import Data.Array as Array
 import Data.BigInt as BigInt
+import Data.Foldable (any)
 import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Term (Term(..))
 import Prelude
@@ -19,6 +20,7 @@ simplify' (App f xs) =
   # simplifyIdentity
   # simplifyCommutativity
   # simplifyConstants
+  # simplifyZeroProduct
 simplify' t = t
 
 simplifyAssociativity :: Term -> Term
@@ -40,6 +42,10 @@ simplifyCommutativity t = t
 
 simplifyConstants :: Term -> Term
 simplifyConstants = id
+
+simplifyZeroProduct :: Term -> Term
+simplifyZeroProduct (App Mul xs) | any (_ == Num BigInt.zero) xs = Num BigInt.zero
+simplifyZeroProduct t = t
 
 associative :: Term -> Boolean
 associative Add = true
