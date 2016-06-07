@@ -26,6 +26,10 @@ body {
 
                     & > button { flex: 0 0 $unit; }
                 }
+
+                & > .-result > .-loading {
+                    font-style: italic;
+                }
             }
         }
     }

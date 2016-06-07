@@ -44,7 +44,7 @@ const FormulaCell = React.createClass({
                 }),
                 React.createElement('button', {type: 'submit'}, '=')
             ),
-            React.createElement('div', {ref: 'result'})
+            React.createElement('div', {className: '-result', ref: 'result'})
         );
     },
     onChange: function(ev) {
@@ -60,7 +60,7 @@ const FormulaCell = React.createClass({
     },
     onSubmit: function(ev) {
         ev.preventDefault();
-        this.refs.result.textContent = '(loading)';
+        this.refs.result.innerHTML = '<span class="-loading">Computing&hellip;</span>';
         this.props.server.compute(this.state.formula, result => {
             this.refs.result.textContent = '\\(' + result + '\\)';
             MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.refs.result]);
