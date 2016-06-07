@@ -21,6 +21,7 @@ simplify' (App f xs) =
   # simplifyCommutativity
   # simplifyConstants
   # simplifyZeroProduct
+  # simplifyUnaryApp
 simplify' t = t
 
 simplifyAssociativity :: Term -> Term
@@ -30,6 +31,10 @@ simplifyAssociativity (App f xs) | associative f = App f (xs >>= flatten)
 simplifyAssociativity t = t
 
 simplifyIdentity :: Term -> Term
+simplifyIdentity (App f []) =
+  case identity f of
+    Nothing -> App f []
+    Just x  -> x
 simplifyIdentity (App f xs) =
   case identity f of
     Nothing -> App f xs
@@ -47,6 +52,10 @@ simplifyZeroProduct :: Term -> Term
 simplifyZeroProduct (App Mul xs) | any (_ == Num BigInt.zero) xs = Num BigInt.zero
 simplifyZeroProduct t = t
 
+simplifyUnaryApp :: Term -> Term
+simplifyUnaryApp (App f [x]) | equalsUnaryApp f = x
+simplifyUnaryApp t = t
+
 associative :: Term -> Boolean
 associative Add = true
 associative Mul = true
@@ -61,3 +70,8 @@ commutative :: Term -> Boolean
 commutative Add = true
 commutative Mul = true
 commutative _ = false
+
+equalsUnaryApp :: Term -> Boolean
+equalsUnaryApp Add = true
+equalsUnaryApp Mul = true
+equalsUnaryApp _ = false
