@@ -35,7 +35,8 @@ simplifyIdentity (App f xs) =
 simplifyIdentity t = t
 
 simplifyCommutativity :: Term -> Term
-simplifyCommutativity = id
+simplifyCommutativity (App f xs) | commutative f = App f (Array.sort xs)
+simplifyCommutativity t = t
 
 simplifyConstants :: Term -> Term
 simplifyConstants = id
@@ -49,3 +50,8 @@ identity :: Term -> Maybe Term
 identity Add = Just (Num BigInt.zero)
 identity Mul = Just (Num BigInt.one)
 identity _ = Nothing
+
+commutative :: Term -> Boolean
+commutative Add = true
+commutative Mul = true
+commutative _ = false
