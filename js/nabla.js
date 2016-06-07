@@ -29,15 +29,34 @@ const FormulaCell = React.createClass({
         return {formula: ''};
     },
     render: function() {
-        return React.createElement('form', {onSubmit: ev => this.onSubmit(ev)},
-            React.createElement('input', {
-                type: 'text',
-                value: this.state.formula,
-                onChange: ev => this.setState({formula: ev.target.value}),
-            }),
-            React.createElement('button', {type: 'submit'}, '='),
+        return React.createElement('form',
+            {
+                className: '-cell -formula-cell',
+                onSubmit: ev => this.onSubmit(ev)
+            },
+            React.createElement('div', {className: '-formula'},
+                React.createElement('textarea', {
+                    ref: 'formula',
+                    value: this.state.formula,
+                    placeholder: 'Formula',
+                    onChange: ev => this.onChange(ev),
+                    onKeyDown: ev => this.onKeyDown(ev),
+                }),
+                React.createElement('button', {type: 'submit'}, '=')
+            ),
             React.createElement('div', {ref: 'result'})
         );
+    },
+    onChange: function(ev) {
+        this.setState({formula: ev.target.value});
+        const field = this.refs.formula;
+        field.style.height = '';
+        field.style.height = field.scrollHeight + 'px';
+    },
+    onKeyDown: function(ev) {
+        if (ev.keyCode === 13 && ev.shiftKey) {
+            this.onSubmit(ev);
+        }
     },
     onSubmit: function(ev) {
         ev.preventDefault();

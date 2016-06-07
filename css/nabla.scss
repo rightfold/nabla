@@ -1,1 +1,32 @@
 @import 'reset';
+
+$unit: 10px;
+
+$primary-color: #e7c2e8;
+
+body {
+    & > .-header {
+        background: $primary-color;
+        padding: $unit;
+    }
+
+    & > .-notebook {
+        & > .-cell {
+            margin: $unit;
+
+            &.-formula-cell {
+                & > .-formula {
+                    display: flex;
+
+                    & > textarea {
+                        flex: 1;
+
+                        border: none;
+                    }
+
+                    & > button { flex: 0 0 $unit; }
+                }
+            }
+        }
+    }
+}
