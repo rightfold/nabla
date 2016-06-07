@@ -23,7 +23,7 @@ add_prefix_term
   = ops:(PLUS / MINUS)* x:app_term
       {
         return ops.reduce(function(x, op) {
-          return op === '+' ? x : ctors.app(ctors.var('Neg'))([x]);
+          return op === '+' ? x : ctors.app(ctors.var('Mul'))([ctors.num(bigInt('-1')), x]);
         }, x);
       }
 

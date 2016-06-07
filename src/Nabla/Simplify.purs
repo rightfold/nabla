@@ -11,7 +11,6 @@ simplify x = if simplified == x then x else simplify simplified
   where simplified = simplify' x
 
 simplify' :: Term -> Term
-simplify' (App f [App g [x]]) | ownInverse f && f == g = x
 simplify' (App f xs) = App f' xs'
   where f'  =     simplify' f
         xs' = map simplify xs
@@ -31,7 +30,3 @@ orderless :: Term -> Boolean
 orderless Add = true
 orderless Mul = true
 orderless _ = false
-
-ownInverse :: Term -> Boolean
-ownInverse Neg = true
-ownInverse _ = false

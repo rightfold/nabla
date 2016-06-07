@@ -19,8 +19,6 @@ data Term
   | Add
   | Mul
 
-  | Neg
-
   | Pow
   | Log
 

@@ -20,7 +20,6 @@ main = serve ((parse >=> (resolve `flip` γ))
                                  , Tuple "E" E
                                  , Tuple "Add" Add
                                  , Tuple "Mul" Mul
-                                 , Tuple "Neg" Neg
                                  , Tuple "Pow" Pow
                                  , Tuple "Log" Log
                                  ]

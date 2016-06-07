@@ -31,7 +31,5 @@ resolve E  _ = Just E
 resolve Add _ = Just Add
 resolve Mul _ = Just Mul
 
-resolve Neg _ = Just Neg
-
 resolve Pow _ = Just Pow
 resolve Log _ = Just Log

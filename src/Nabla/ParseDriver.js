@@ -1,3 +1,4 @@
+var bigInt = require('big-integer');
 var ctors;
 module.exports['parse\''] = function(ctors_) {
     ctors = ctors_;
