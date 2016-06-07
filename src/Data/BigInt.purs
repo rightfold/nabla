@@ -1,7 +1,5 @@
 module Data.BigInt
 ( BigInt
-, zero
-, one
 , fromString
 ) where
 
@@ -10,20 +8,28 @@ import Prelude
 
 foreign import data BigInt :: *
 
-foreign import zero :: BigInt
-foreign import one :: BigInt
-
 fromString :: String -> Maybe BigInt
 fromString = fromStringImpl Just Nothing
 
 instance showBigInt :: Show BigInt where
   show = showImpl
 
+instance semiringBigInt :: Semiring BigInt where
+  one = oneImpl
+  mul = mulImpl
+  zero = zeroImpl
+  add = addImpl
+
 instance eqBigInt :: Eq BigInt where
   eq = eqImpl
 
 instance ordBigInt :: Ord BigInt where
   compare = compareImpl [LT, EQ, GT]
+
+foreign import oneImpl :: BigInt
+foreign import mulImpl :: BigInt -> BigInt -> BigInt
+foreign import zeroImpl :: BigInt
+foreign import addImpl :: BigInt -> BigInt -> BigInt
 
 foreign import fromStringImpl
   :: (forall a. a -> Maybe a)
