@@ -12,9 +12,15 @@ simplify x = if simplified == x then x else simplify simplified
   where simplified = simplify' x
 
 simplify' :: Term -> Term
-simplify' (App Add [x, y]) | x == y = App Mul [Num 2, simplify' x]
-simplify' (App Add xs) = App Add (xs # map simplify' # Array.sort)
-simplify' (App Mul [x, y]) | x == y = App Pow [simplify' x, Num 2]
-simplify' (App Mul xs) = App Mul (xs # map simplify' # Array.sort)
-simplify' (App f xs) = App (simplify' f) (map simplify' xs)
+simplify' (App f xs) = App f' xs'
+  where f'  =     simplify' f
+        xs' = map simplify xs # if flat f' then (_ >>= flatten) else id
+        flatten t@(App g xs) | g == f'   = xs
+                             | otherwise = [t]
+        flatten t = [t]
 simplify' t = t
+
+flat :: Term -> Boolean
+flat Add = true
+flat Mul = true
+flat _ = false
