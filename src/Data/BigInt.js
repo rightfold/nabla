@@ -2,6 +2,9 @@
 
 const bigInt = require('big-integer');
 
+exports.zero = bigInt('0');
+exports.one = bigInt('1');
+
 exports.fromStringImpl = function(just) {
     return function(nothing) {
         return function(string) {
@@ -20,7 +23,7 @@ exports.showImpl = function(x) {
 
 exports.eqImpl = function(a) {
     return function(b) {
-        return a.plus(b);
+        return a.equals(b);
     };
 };
 

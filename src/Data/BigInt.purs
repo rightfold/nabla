@@ -1,11 +1,17 @@
 module Data.BigInt
 ( BigInt
+, zero
+, one
+, fromString
 ) where
 
 import Data.Maybe (Maybe(Just, Nothing))
 import Prelude
 
 foreign import data BigInt :: *
+
+foreign import zero :: BigInt
+foreign import one :: BigInt
 
 fromString :: String -> Maybe BigInt
 fromString = fromStringImpl Just Nothing

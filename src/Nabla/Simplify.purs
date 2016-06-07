@@ -3,6 +3,8 @@ module Nabla.Simplify
 ) where
 
 import Data.Array as Array
+import Data.BigInt as BigInt
+import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Term (Term(..))
 import Prelude
 
@@ -11,22 +13,31 @@ simplify x = if simplified == x then x else simplify simplified
   where simplified = simplify' x
 
 simplify' :: Term -> Term
-simplify' (App f xs) = App f' xs'
-  where f'  =     simplify' f
-        xs' = map simplify xs
-              # (if flat f' then (_ >>= flatten) else id)
-              # (if orderless f' then Array.sort else id)
-        flatten t@(App g xs) | g == f'   = xs
-                             | otherwise = [t]
-        flatten t = [t]
+simplify' (App f xs) =
+  App (simplify' f) (simplify' <$> xs)
+  # simplifyAssociativity
+  # simplifyIdentity
+  # simplifyCommutativity
+  # simplifyConstants
 simplify' t = t
 
-flat :: Term -> Boolean
-flat Add = true
-flat Mul = true
-flat _ = false
+simplifyAssociativity :: Term -> Term
+simplifyAssociativity = id
 
-orderless :: Term -> Boolean
-orderless Add = true
-orderless Mul = true
-orderless _ = false
+simplifyIdentity :: Term -> Term
+simplifyIdentity (App f xs) =
+  case identity f of
+    Nothing -> App f xs
+    Just x  -> App f (Array.filter (_ /= x) xs)
+simplifyIdentity t = t
+
+simplifyCommutativity :: Term -> Term
+simplifyCommutativity = id
+
+simplifyConstants :: Term -> Term
+simplifyConstants = id
+
+identity :: Term -> Maybe Term
+identity Add = Just (Num BigInt.zero)
+identity Mul = Just (Num BigInt.one)
+identity _ = Nothing

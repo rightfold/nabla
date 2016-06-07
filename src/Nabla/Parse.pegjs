@@ -40,6 +40,7 @@ app_term
 primary_term
   = name:LOWERCASE_IDENTIFIER { return ctors.var(name); }
   / name:UPPERCASE_IDENTIFIER { return ctors.var(name); }
+  / int:INTEGER { return ctors.num(int); }
   / LEFT_PAREN term:term RIGHT_PAREN { return term; }
 
 PLUS = _ '+' _ { return '+'; }
@@ -47,6 +48,7 @@ MINUS = _ '-' _ { return '-'; }
 ASTERISK = _ '*' _ { return '*'; }
 SLASH = _ '/' _ { return '/'; }
 COMMA = _ ',' _
+INTEGER = _ s:$([0-9]+) _ { return bigInt(s); }
 LEFT_BRACKET = _ '[' _
 RIGHT_BRACKET = _ ']' _
 LEFT_PAREN = _ '(' _
