@@ -2,8 +2,6 @@ module Nabla.Simplify
 ( simplify
 ) where
 
-import Data.Array as Array
-import Nabla.Polynomial (unpolynomial)
 import Nabla.Term (Term(..))
 import Prelude
 

@@ -2,7 +2,7 @@ module Nabla.Term
 ( Term(..)
 ) where
 
-import Data.Generic (gCompare, class Generic, gEq)
+import Data.BigInt (BigInt)
 import Prelude
 
 -- | Denotes a mathematical object. Equality and ordering are structural;
@@ -11,7 +11,7 @@ data Term
   = Var String
   | App Term (Array Term)
 
-  | Num Int
+  | Num BigInt
 
   | Pi
   | E
@@ -22,8 +22,6 @@ data Term
   | Pow
   | Log
 
-derive instance genericTerm :: Generic Term
+derive instance eqTerm :: Eq Term
 
-instance eqTerm :: Eq Term where eq = gEq
-
-instance ordTerm :: Ord Term where compare = gCompare
+derive instance ordTerm :: Ord Term
