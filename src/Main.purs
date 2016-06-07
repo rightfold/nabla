@@ -14,10 +14,8 @@ import Prelude
 foreign import data WEBWORKER :: !
 
 main :: forall e. Eff (webWorker :: WEBWORKER | e) Unit
-main = serve $ parse >>> maybe "" (    (resolve `flip` γ)
-                                   >>> simplify
-                                   >>> toLaTeX
-                                  )
+main = serve ((parse >=> (resolve `flip` γ))
+               >>> maybe "" (simplify >>> toLaTeX))
   where γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
                                  , Tuple "E" E
                                  , Tuple "Add" Add
