@@ -2,6 +2,10 @@
 
 const bigInt = require('big-integer');
 
+exports.fromIntImpl = function(int) {
+    return bigInt(int);
+};
+
 exports.fromStringImpl = function(just) {
     return function(nothing) {
         return function(string) {

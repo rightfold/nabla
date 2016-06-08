@@ -3,12 +3,15 @@ module Nabla.Simplify
 ) where
 
 import Data.Array as Array
+import Data.Array.Partial as Array.Partial
 import Data.BigInt (BigInt)
+import Data.BigInt as BigInt
 import Data.Foldable (any, foldl)
 import Data.List (List(Cons, Nil))
 import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Derivative (derivative)
 import Nabla.Term (Term(..))
+import Partial.Unsafe (unsafePartial)
 import Prelude
 
 simplify :: Term -> Term
@@ -16,9 +19,10 @@ simplify x = if simplified == x then x else simplify simplified
   where simplified = simplify' x
 
 simplify' :: Term -> Term
-simplify' (App f xs) =
-  App (simplify' f) (simplify' <$> xs)
+simplify' t =
+  t
   # simplifyAssociativity
+  # simplifyGrouping
   # simplifyIdentity
   # simplifyConstants
   # simplifyCommutativity
@@ -26,13 +30,23 @@ simplify' (App f xs) =
   # simplifyZeroProduct
   # simplifyDerivative
   # simplifyPower
-simplify' t = t
+  # simplifyComponents
 
 simplifyAssociativity :: Term -> Term
 simplifyAssociativity (App f xs) | associative f = App f (xs >>= flatten)
-  where flatten (App g ys) | g == f = ys
+  where flatten (App g ys) | g == f = ys >>= flatten
         flatten t = [t]
 simplifyAssociativity t = t
+
+simplifyGrouping :: Term -> Term
+simplifyGrouping (App f xs) =
+  case group f of
+    Nothing -> App f xs
+    Just g  -> let perGroup [x] = x
+                   perGroup xs  = g (BigInt.fromInt $ Array.length xs)
+                                    (unsafePartial $ Array.Partial.head xs)
+                in App f $ map perGroup (Array.group' xs)
+simplifyGrouping t = t
 
 simplifyIdentity :: Term -> Term
 simplifyIdentity (App f []) =
@@ -84,6 +98,10 @@ simplifyPower (App Pow [b, e])
   | otherwise = App Pow [b, e]
 simplifyPower t = t
 
+simplifyComponents :: Term -> Term
+simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
+simplifyComponents t = t
+
 associative :: Term -> Boolean
 associative Add = true
 associative Mul = true
@@ -103,6 +121,11 @@ commutative :: Term -> Boolean
 commutative Add = true
 commutative Mul = true
 commutative _ = false
+
+group :: Term -> Maybe (BigInt -> Term -> Term)
+group Add = Just \n t -> App Mul [Num n, t]
+group Mul = Just \n t -> App Pow [t, Num n]
+group _ = Nothing
 
 equalsUnaryApp :: Term -> Boolean
 equalsUnaryApp Add = true

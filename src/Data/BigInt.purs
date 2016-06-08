@@ -1,5 +1,6 @@
 module Data.BigInt
 ( BigInt
+, fromInt
 , fromString
 , toString
 ) where
@@ -8,6 +9,9 @@ import Data.Maybe (Maybe(Just, Nothing))
 import Prelude
 
 foreign import data BigInt :: *
+
+fromInt :: Int -> BigInt
+fromInt = fromIntImpl
 
 fromString :: String -> Maybe BigInt
 fromString = fromStringImpl Just Nothing
@@ -39,6 +43,8 @@ foreign import zeroImpl :: BigInt
 foreign import addImpl :: BigInt -> BigInt -> BigInt
 
 foreign import subImpl :: BigInt -> BigInt -> BigInt
+
+foreign import fromIntImpl :: Int -> BigInt
 
 foreign import fromStringImpl
   :: (forall a. a -> Maybe a)
