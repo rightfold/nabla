@@ -62,8 +62,7 @@ const FormulaCell = React.createClass({
         ev.preventDefault();
         this.refs.result.innerHTML = '<span class="-loading">Computing&hellip;</span>';
         this.props.server.compute(this.state.formula, result => {
-            this.refs.result.textContent = '\\(' + result + '\\)';
-            MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.refs.result]);
+            this.refs.result.textContent = result;
         });
     },
 });
