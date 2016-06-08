@@ -1,0 +1,9 @@
+def Add = __Add;
+
+def Multiply = __Multiply;
+
+def Raise = __Raise;
+
+def Subtract = fun[A, B] A + -B;
+
+def Divide = fun[A, B] A B^-1;
