@@ -117,6 +117,7 @@ simplifyLambdaCall t = t
 
 simplifyComponents :: Term -> Term
 simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
+simplifyComponents (Lam ps b) = Lam ps (simplify' b)
 simplifyComponents t = t
 
 associative :: Term -> Boolean
