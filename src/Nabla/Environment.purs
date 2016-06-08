@@ -3,6 +3,7 @@ module Nabla.Environment
 , resolve
 ) where
 
+import Data.Foldable (foldl)
 import Data.Map (Map)
 import Data.Map as Map
 import Data.Maybe (Maybe(Just))
@@ -22,6 +23,9 @@ lookup k (Γ γ) =
 resolve :: Term -> Γ -> Maybe Term
 resolve (Var s) γ = lookup s γ
 resolve (App f xs) γ = App <$> resolve f γ <*> traverse (resolve `flip` γ) xs
+resolve (Lam ps x) (Γ γ) =
+  let γ' = foldl (\g p -> Map.insert p (Var p) g) γ ps
+   in Lam ps <$> resolve x (Γ γ')
 
 resolve n@(Num _) _ = Just n
 

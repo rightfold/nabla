@@ -14,6 +14,7 @@ import Prelude
 data Term
   = Var String
   | App Term (Array Term)
+  | Lam (Array String) Term
 
   | Num BigInt
 
@@ -34,7 +35,8 @@ derive instance ordTerm :: Ord Term
 
 showNabla :: Term -> String
 showNabla (Var x) = x
-showNabla (App f xs) = showNabla f <> "[" <> String.joinWith ", " (map showNabla xs) <> "]"
+showNabla (App f xs) = "(" <> showNabla f <> ")[" <> String.joinWith ", " (map showNabla xs) <> "]"
+showNabla (Lam ps x) = "fun[" <> String.joinWith ", " ps <> "] " <> showNabla x
 
 showNabla (Num x) = BigInt.toString x
 

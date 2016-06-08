@@ -1,5 +1,10 @@
 term
-  = add_term
+  = fun_term
+
+fun_term
+  = FUN LEFT_BRACKET pInit:(x:IDENTIFIER COMMA { return x; })* pLast:IDENTIFIER? RIGHT_BRACKET b:fun_term
+      { return ctors.lam(pInit.concat(pLast === null ? [] : [pLast]))(b); }
+  / add_term
 
 add_term
   = head:mul_term tail:(op:(PLUS / MINUS) x:mul_term { return {op: op, x: x}; })*
@@ -38,8 +43,7 @@ app_term
       }
 
 primary_term
-  = name:LOWERCASE_IDENTIFIER { return ctors.var(name); }
-  / name:UPPERCASE_IDENTIFIER { return ctors.var(name); }
+  = name:IDENTIFIER { return ctors.var(name); }
   / int:INTEGER { return ctors.num(int); }
   / LEFT_PAREN term:term RIGHT_PAREN { return term; }
 
@@ -53,7 +57,7 @@ LEFT_BRACKET = _ '[' _
 RIGHT_BRACKET = _ ']' _
 LEFT_PAREN = _ '(' _
 RIGHT_PAREN = _ ')' _
-LOWERCASE_IDENTIFIER = _ name:$([a-z][A-Za-z]*) _ { return name; }
-UPPERCASE_IDENTIFIER = _ name:$([A-Z][A-Za-z]*) _ { return name; }
+IDENTIFIER = _ !'fun' name:$([A-Za-z]+) _ { return name; }
+FUN = _ 'fun' _
 
 _ = [ \t\r\n]*
