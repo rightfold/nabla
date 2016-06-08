@@ -44,9 +44,9 @@ showNabla Pi = "Pi"
 showNabla E  = "E"
 
 showNabla Add = "Add"
-showNabla Mul = "Mul"
+showNabla Mul = "Multiply"
 
-showNabla Pow = "Pow"
+showNabla Pow = "Raise"
 showNabla Log = "Log"
 
-showNabla Derivative = "Derivative"
+showNabla Derivative = "Differentiate"

@@ -18,10 +18,10 @@ main = serve ((parse >=> (resolve `flip` γ))
   where γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
                                  , Tuple "E" E
                                  , Tuple "Add" Add
-                                 , Tuple "Mul" Mul
-                                 , Tuple "Pow" Pow
+                                 , Tuple "Multiply" Mul
+                                 , Tuple "Raise" Pow
                                  , Tuple "Log" Log
-                                 , Tuple "Derivative" Derivative
+                                 , Tuple "Differentiate" Derivative
                                  ]
 
 foreign import serve
