@@ -8,8 +8,10 @@ import Data.BigInt (BigInt)
 import Data.BigInt as BigInt
 import Data.Foldable (any, foldl)
 import Data.List (List(Cons, Nil))
+import Data.Map as Map
 import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Derivative (derivative)
+import Nabla.Environment (Γ(Γ), resolve)
 import Nabla.Term (Term(..))
 import Partial.Unsafe (unsafePartial)
 import Prelude
@@ -34,6 +36,7 @@ simplify' t =
   # simplifyZeroProduct
   # simplifyDerivative
   # simplifyPower
+  # simplifyLambdaCall
   # simplifyComponents
 
 simplifyAssociativity :: Term -> Term
@@ -104,6 +107,18 @@ simplifyPower (App Pow [b, e])
   | otherwise = App Pow [b, e]
 simplifyPower t = t
 
+simplifyLambdaCall :: Term -> Term
+simplifyLambdaCall (App (Lam ps b) xs)
+  | Array.length ps == Array.length xs =
+      case resolve b (Γ $ Map.fromFoldable (Array.zip ps xs)) of
+        Nothing -> App (Lam ps b) xs
+        Just r  -> r
+simplifyLambdaCall t = t
+
+simplifyComponents :: Term -> Term
+simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
+simplifyComponents t = t
+
 associative :: Term -> Boolean
 associative Add = true
 associative Mul = true
@@ -133,7 +148,3 @@ equalsUnaryApp :: Term -> Boolean
 equalsUnaryApp Add = true
 equalsUnaryApp Mul = true
 equalsUnaryApp _ = false
-
-simplifyComponents :: Term -> Term
-simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
-simplifyComponents t = t
