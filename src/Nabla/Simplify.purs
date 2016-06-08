@@ -52,7 +52,7 @@ simplifyConstants (App f xs) =
     Just {op, id} ->
       case partition xs of
         {consts: Nil} -> App f xs
-        {consts, rest} -> App f (Array.cons (Num (foldl op id consts)) (Array.fromFoldable rest))
+        {consts, rest} -> App f (Array.fromFoldable $ Cons (Num (foldl op id consts)) rest)
   where partition = foldl go {consts: Nil, rest: Nil}
           where go {consts, rest} (Num x) = {consts: Cons x consts, rest}
                 go {consts, rest} t       = {consts, rest: Cons t rest}
