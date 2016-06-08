@@ -15,8 +15,12 @@ import Partial.Unsafe (unsafePartial)
 import Prelude
 
 simplify :: Term -> Term
-simplify x = if simplified == x then x else simplify simplified
-  where simplified = simplify' x
+simplify = go 128
+  where go 0 x = x
+        go n x = let simplified = simplify' x
+                  in if simplified == x
+                       then simplified
+                       else go (n - 1) simplified
 
 simplify' :: Term -> Term
 simplify' t =
@@ -93,14 +97,12 @@ simplifyDerivative t = t
 
 simplifyPower :: Term -> Term
 simplifyPower (App Pow [b, e])
+  | b == Num zero = Num zero
+  | b == Num one  = Num one
   | e == Num zero = Num one
-  | e == Num one = b
+  | e == Num one  = b
   | otherwise = App Pow [b, e]
 simplifyPower t = t
-
-simplifyComponents :: Term -> Term
-simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
-simplifyComponents t = t
 
 associative :: Term -> Boolean
 associative Add = true
@@ -131,3 +133,7 @@ equalsUnaryApp :: Term -> Boolean
 equalsUnaryApp Add = true
 equalsUnaryApp Mul = true
 equalsUnaryApp _ = false
+
+simplifyComponents :: Term -> Term
+simplifyComponents (App f xs) = App (simplify' f) (map simplify' xs)
+simplifyComponents t = t
