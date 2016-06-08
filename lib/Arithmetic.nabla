@@ -4,6 +4,8 @@ def Multiply = __Multiply;
 
 def Raise = __Raise;
 
+def Negate = fun[X] X __MinusOne;
+
 def Subtract = fun[A, B] A + -B;
 
 def Divide = fun[A, B] A B^-1;
