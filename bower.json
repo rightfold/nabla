@@ -20,6 +20,7 @@
     "purescript-arrays": "^1.0.0",
     "purescript-strings": "^1.0.0",
     "react": "^15.1.0",
-    "purescript-foldable-traversable": "^1.0.0"
+    "purescript-foldable-traversable": "^1.0.0",
+    "purescript-lists": "~1.0.0"
   }
 }

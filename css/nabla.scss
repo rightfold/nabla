@@ -1,6 +1,6 @@
 @import 'reset';
 
-$unit: 10px;
+$unit: 12px;
 
 $primary-color: #e7c2e8;
 
@@ -22,13 +22,24 @@ body {
                         flex: 1;
 
                         border: none;
+                        &:focus { outline: none; }
+
+                        font-family: monospace;
+                        font-size: $unit;
+
+                        padding: 0;
                     }
 
                     & > button { flex: 0 0 $unit; }
                 }
 
-                & > .-result > .-loading {
-                    font-style: italic;
+                & > .-result {
+                    font-family: monospace;
+                    font-size: $unit;
+
+                    & > .-loading {
+                        font-style: italic;
+                    }
                 }
             }
         }

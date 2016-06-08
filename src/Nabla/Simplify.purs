@@ -5,6 +5,7 @@ module Nabla.Simplify
 import Data.Array as Array
 import Data.BigInt (BigInt)
 import Data.Foldable (any, foldl)
+import Data.List (List(Cons, Nil))
 import Data.Maybe (Maybe(Just, Nothing))
 import Nabla.Derivative (derivative)
 import Nabla.Term (Term(..))
@@ -50,11 +51,11 @@ simplifyConstants (App f xs) =
     Nothing -> App f xs
     Just {op, id} ->
       case partition xs of
-        {consts: []} -> App f xs
-        {consts, rest} -> App f (Array.cons (Num (foldl op id consts)) rest)
-  where partition = foldl go {consts: [], rest: []}
-          where go {consts, rest} (Num x) = {consts: Array.cons x consts, rest}
-                go {consts, rest} t       = {consts, rest: Array.cons t rest}
+        {consts: Nil} -> App f xs
+        {consts, rest} -> App f (Array.cons (Num (foldl op id consts)) (Array.fromFoldable rest))
+  where partition = foldl go {consts: Nil, rest: Nil}
+          where go {consts, rest} (Num x) = {consts: Cons x consts, rest}
+                go {consts, rest} t       = {consts, rest: Cons t rest}
 simplifyConstants t = t
 
 simplifyCommutativity :: Term -> Term
