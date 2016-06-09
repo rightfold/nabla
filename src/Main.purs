@@ -22,6 +22,7 @@ main = serve ((parse >=> (resolve `flip` γ))
                                  , Tuple "Raise" Pow
                                  , Tuple "Log" Log
                                  , Tuple "Differentiate" Derivative
+                                 , Tuple "Limit" Lim
                                  ]
 
 foreign import serve

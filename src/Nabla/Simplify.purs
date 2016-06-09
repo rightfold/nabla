@@ -35,6 +35,7 @@ simplify' t =
   # simplifyUnaryApp
   # simplifyZeroProduct
   # simplifyDerivative
+  # simplifyLimit
   # simplifyPower
   # simplifyLambdaCall
   # simplifyComponents
@@ -97,6 +98,13 @@ simplifyDerivative (App Derivative [f, Var x]) =
     Just d  -> d
     Nothing -> App Derivative [f, Var x]
 simplifyDerivative t = t
+
+simplifyLimit :: Term -> Term
+simplifyLimit (App Lim [e, Var x, a]) =
+  case resolve e (Γ $ Map.singleton x a) of
+    Nothing -> App Lim [e, Var x, a]
+    Just r  -> r
+simplifyLimit t = t
 
 simplifyPower :: Term -> Term
 simplifyPower (App Pow [b, e])

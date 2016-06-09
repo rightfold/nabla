@@ -6,7 +6,7 @@ module Nabla.Environment
 import Data.Foldable (foldl)
 import Data.Map (Map)
 import Data.Map as Map
-import Data.Maybe (Maybe(Just))
+import Data.Maybe (Maybe(Just, Nothing))
 import Data.String (charAt)
 import Data.Traversable (traverse)
 import Nabla.Term (Term(..))
@@ -16,9 +16,12 @@ newtype Γ = Γ (Map String Term)
 
 lookup :: String -> Γ -> Maybe Term
 lookup k (Γ γ) =
-  case charAt 0 k of
-    Just c | c >= 'a' && c <= 'z' -> Just (Var k)
-    _ -> Map.lookup k γ
+  case Map.lookup k γ of
+    Just v -> Just v
+    Nothing ->
+      case charAt 0 k of
+        Just c | c >= 'a' && c <= 'z' -> Just (Var k)
+        _ -> Nothing
 
 resolve :: Term -> Γ -> Maybe Term
 resolve (Var s) γ = lookup s γ
@@ -39,3 +42,4 @@ resolve Pow _ = Just Pow
 resolve Log _ = Just Log
 
 resolve Derivative _ = Just Derivative
+resolve Lim _ = Just Lim

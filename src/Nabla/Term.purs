@@ -28,6 +28,7 @@ data Term
   | Log
 
   | Derivative
+  | Lim
 
 derive instance eqTerm :: Eq Term
 
@@ -50,3 +51,4 @@ showNabla Pow = "Raise"
 showNabla Log = "Log"
 
 showNabla Derivative = "Differentiate"
+showNabla Lim = "Limit"
