@@ -1,11 +1,11 @@
-def Add = __Add;
+let Add = __Add;
 
-def Multiply = __Multiply;
+let Multiply = __Multiply;
 
-def Raise = __Raise;
+let Raise = __Raise;
 
-def Negate = fun[X] X __MinusOne;
+let Negate = fun[X] X __MinusOne;
 
-def Subtract = fun[A, B] A + -B;
+let Subtract = fun[A, B] A + -B;
 
-def Divide = fun[A, B] A B^-1;
+let Divide = fun[A, B] A B^-1;

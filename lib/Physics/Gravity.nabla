@@ -1,5 +1,7 @@
-use Physics::SI::{Newton, Meter, Kilogram};
+import Physics::SI::Newton;
+import Physics::SI::Meter;
+import Physics::SI::Kilogram;
 
-def GravitationalConstant = 6.67408*10^−11 Newton Meter^2 Kilogram^-2;
+let GravitationalConstant = 6.67408*10^−11 Newton Meter^2 Kilogram^-2;
 
-def GravitationalForce = fun[M1, M2, R] GravitationalConstant((M1 M2) / R^2);
+let GravitationalForce = fun[M1, M2, R] GravitationalConstant((M1 M2) / R^2);

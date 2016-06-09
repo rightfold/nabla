@@ -2,10 +2,10 @@ module Main where
 
 import Control.Monad.Eff (Eff)
 import Data.Map as Map
-import Data.Maybe (maybe)
+import Data.Maybe (Maybe(Just, Nothing), maybe)
 import Data.Tuple (Tuple(Tuple))
 import Nabla.Environment (Γ(Γ), resolve)
-import Nabla.Parse (parse)
+import Nabla.Parse (parseTerm)
 import Nabla.Simplify (simplify)
 import Nabla.Term (showNabla, Term(..))
 import Prelude
@@ -13,9 +13,13 @@ import Prelude
 foreign import data WEBWORKER :: !
 
 main :: forall e. Eff (webWorker :: WEBWORKER | e) Unit
-main = serve ((parse >=> (resolve `flip` γ))
-               >>> maybe "" (simplify >>> showNabla))
-  where γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
+main = serve go
+  where go text =
+          let parseResult = parseTerm text
+           in case parseResult of
+                Nothing -> "(no parse)"
+                Just t  -> resolve t γ # maybe "" (simplify >>> showNabla)
+        γ = Γ $ Map.fromFoldable [ Tuple "Pi" Pi
                                  , Tuple "E" E
                                  , Tuple "Add" Add
                                  , Tuple "Multiply" Mul

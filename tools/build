@@ -1,5 +1,8 @@
 #!/bin/bash -e
-node_modules/.bin/pegjs src/Nabla/Parse.pegjs src/Nabla/Parse.js
+node_modules/.bin/pegjs \
+    --allowed-start-rules decls_top,term_top \
+    src/Nabla/Parse.pegjs \
+    src/Nabla/Parse.js
 cat src/Nabla/ParseDriver.js >> src/Nabla/Parse.js
 pulp browserify > output/nabla-server.js
 sass css/nabla.scss output/nabla.css

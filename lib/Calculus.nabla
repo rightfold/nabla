@@ -1,1 +1,3 @@
-def Differentiate = __Differentiate;
+let Differentiate = __Differentiate;
+
+let Limit = __Limit;

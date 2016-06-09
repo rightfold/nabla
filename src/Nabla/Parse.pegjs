@@ -1,3 +1,23 @@
+decls_top = decl*
+term_top = term
+
+decl
+  = import_decl
+  / let_decl
+  / abstract_decl
+
+import_decl
+  = IMPORT ms:(m:UPPER_IDENTIFIER DOUBLE_COLON { return m; }) x:UPPER_IDENTIFIER SEMICOLON
+      { return ctors.importDecl(ms)(x); }
+
+let_decl
+  = LET x:UPPER_IDENTIFIER EQUALS t:term SEMICOLON
+      { return ctors.letDecl(x)(t); }
+
+abstract_decl
+  = ABSTRACT x:UPPER_IDENTIFIER SEMICOLON
+      { return ctors.abstractDecl(x); }
+
 term
   = fun_term
 
@@ -57,8 +77,14 @@ LEFT_BRACKET = _ '[' _
 RIGHT_BRACKET = _ ']' _
 LEFT_PAREN = _ '(' _
 RIGHT_PAREN = _ ')' _
-IDENTIFIER = _ !'fun' name:$([A-Za-z]+) _ { return name; }
+DOUBLE_COLON = _ '::' _
+EQUALS = _ '=' _
+SEMICOLON = _ ';' _
+IDENTIFIER = _ !'fun' !'import' !'abstract' !'let' name:$([A-Za-z]+) _ { return name; }
 UPPER_IDENTIFIER = _ name:$([A-Z][A-Za-z]*) _ { return name; }
 FUN = _ 'fun' _
+IMPORT = _ 'import' _
+ABSTRACT = _ 'abstract' _
+LET = _ 'let' _
 
 _ = [ \t\r\n]*
