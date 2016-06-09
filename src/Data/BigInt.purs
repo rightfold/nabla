@@ -3,6 +3,7 @@ module Data.BigInt
 , fromInt
 , fromString
 , toString
+, pow
 ) where
 
 import Data.Maybe (Maybe(Just, Nothing))
@@ -18,6 +19,9 @@ fromString = fromStringImpl Just Nothing
 
 toString :: BigInt -> String
 toString = toStringImpl
+
+pow :: BigInt -> BigInt -> BigInt
+pow = powImpl
 
 instance showBigInt :: Show BigInt where
   show = showImpl
@@ -55,6 +59,8 @@ foreign import fromStringImpl
 foreign import toStringImpl
   :: BigInt
   -> String
+
+foreign import powImpl :: BigInt -> BigInt -> BigInt
 
 foreign import showImpl
   :: BigInt

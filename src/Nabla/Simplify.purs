@@ -68,6 +68,8 @@ simplifyIdentity (App f xs) =
 simplifyIdentity t = t
 
 simplifyConstants :: Term -> Term
+simplifyConstants (App Pow [Num x, Num y]) | y >= zero = -- TODO: generalize this?
+  Num (BigInt.pow x y)
 simplifyConstants (App f xs) =
   case foldConstants f of
     Nothing -> App f xs

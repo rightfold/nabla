@@ -22,6 +22,12 @@ exports.toStringImpl = function(x) {
     return x.toString();
 };
 
+exports.powImpl = function(a) {
+    return function(b) {
+        return a.pow(b);
+    };
+};
+
 exports.showImpl = function(x) {
     return 'Data.BigInt.unsafeFromString "' + x.toString() + '"';
 };
