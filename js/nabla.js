@@ -1,5 +1,7 @@
 'use strict';
 
+let n = 0;
+
 class Server {
     constructor() {
         this.worker = new Worker('output/nabla-server.js');
@@ -23,6 +25,29 @@ class Server {
         this.worker.postMessage(JSON.stringify({id, formula}));
     }
 }
+
+const CellList = React.createClass({
+    getInitialState: function() {
+        return {cells: []};
+    },
+    render: function() {
+        return React.createElement('div',
+            {className: '-cell-list'},
+            this.state.cells,
+            React.createElement('button', {onClick: () => this.addCell()}, '+')
+        );
+    },
+    addCell: function() {
+        const cells = this.state.cells.slice();
+        cells.push(
+            React.createElement(FormulaCell, {
+                key: ++n,
+                server: this.props.server,
+            })
+        );
+        this.setState({cells});
+    },
+});
 
 const FormulaCell = React.createClass({
     getInitialState: function() {
@@ -70,7 +95,7 @@ const FormulaCell = React.createClass({
 addEventListener('load', () => {
     const server = new Server();
     ReactDOM.render(
-        React.createElement(FormulaCell, {server}),
+        React.createElement(CellList, {server}),
         document.getElementById('notebook')
     );
 });

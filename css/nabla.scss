@@ -11,34 +11,36 @@ body {
     }
 
     & > .-notebook {
-        & > .-cell {
-            margin: $unit;
+        & > .-cell-list {
+            & > .-cell {
+                margin: $unit;
 
-            &.-formula-cell {
-                & > .-formula {
-                    display: flex;
+                &.-formula-cell {
+                    & > .-formula {
+                        display: flex;
 
-                    & > textarea {
-                        flex: 1;
+                        & > textarea {
+                            flex: 1;
 
-                        border: none;
-                        &:focus { outline: none; }
+                            border: none;
+                            &:focus { outline: none; }
 
+                            font-family: monospace;
+                            font-size: $unit;
+
+                            padding: 0;
+                        }
+
+                        & > button { flex: 0 0 $unit; }
+                    }
+
+                    & > .-result {
                         font-family: monospace;
                         font-size: $unit;
 
-                        padding: 0;
-                    }
-
-                    & > button { flex: 0 0 $unit; }
-                }
-
-                & > .-result {
-                    font-family: monospace;
-                    font-size: $unit;
-
-                    & > .-loading {
-                        font-style: italic;
+                        & > .-loading {
+                            font-style: italic;
+                        }
                     }
                 }
             }
